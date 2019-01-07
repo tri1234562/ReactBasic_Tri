@@ -1,0 +1,52 @@
+Một Chút Về Git trong GitHub
+	-Lên tạo một Project trên github -> có link github của project.
+	-muốn push code lên:
+		+git clone 'url github về'
+		+git add . (ngoài . thì có thể là tên file cụ thể v.v...)
+		+git commit -m 'message commit' --> phải đăng nhập tài khoản git bằng cú pháp của nó
+		+đăng nhập global sau đó git commit -m 'message' lại lần nữa.
+		+ hiển thị cái biểu đồ command commit -> Syntax trên top là Initial commit -> dùng ESC -> Syntax là ":qw" -> commit và trở về lại command line đang viết.
+		(Có thể chuyển insert or replace của bước trên).
+	
+	-gitignore dùng để loại bỏ những file nào mình không muốn upload lên (như cái node_modules chẳng hạn)
+		+touch .gitignore -> tạo ra 1 file .gitignore
+		+vào file .gitignore để thêm vào các file muốn loại bỏ -> file .gitignore tự tạo khi install npm để làm ví dụ
+	
+	-branch -> tạo nhánh làm việc riêng cho mỗi người.
+		+git branch Tri -> tạo một nhánh là Tri.
+		+git checkout Tri -> chuyển sang branch Tri. 
+		---> Giờ thì làm việc trên branch Tri thì chỉ có Tri thấy, branch master không có được update giống Tri, khi nào Merge thì nó ms update hết.
+		+git merge TRI  --> h thì nó merge mấy cái commit của Tri zô master luôn r , nhớ checkout cẩn thận r mới merge. 
+		
+	--> Nếu merge mà 2 code khác nhau (tức là master có chỗ khác với branch) thì nó hiển thị ntn.
+				<<<<<<< HEAD
+				TEST 1 
+				=======
+				TRI BRANCH
+				>>>>>>> TRI
+				
+		-> HEAD tức là nhánh branch master (branch hiện tại mình đang GIT).
+		-> TRI tức là branch TRI.
+		
+	
+	-Remote -> điều khiển
+		 +Lỗi:
+			$git remote -v (sau khi viết cmd lệnh này thì đoạn dưới hiện ra, đọc sẽ thấy được lỗi mắc phải)
+			
+				myOrigin ssh://git@example.com:1234/myRepo.git (fetch)
+				myOrigin ssh://git@example.com:1234/myRepo.git (push)
+
+				# this will fail because `origin` is not set
+				$git push origin master
+
+				# you need to use
+				$git push myOrigin master
+		+Fix:
+			$git remote remove myOrigin //remove cái remote cũ.
+			$git remote add origin 'url của GIT VD: $git remote add origin ssh://git@example.com:1234/myRepo.git' // set cái remote origin.
+
+			# this will now work as expected
+			$git push origin master'
+
+			# this will now work as expected
+			$git push origin master

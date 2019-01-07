@@ -1,0 +1,148 @@
+							
+		*********************************************************************************REACT*********************************************************************************
+	Tao 1 ung dung React:
+		-npm install -save create-react-app
+		-create-react-app name-app
+
+	
+	-PROPS = property -> Dùng để tái sử dụng khi viết một component or function class
+		VD: Viết function Test(props)
+		{
+			<h1> Hello {props.name} </h1> // -> những thằng nào có thuộc tính name thì khi gọi Test nó sẽ hiện ra thêm cái nanme sau hello
+		}
+		function App()
+		{
+			return
+			(
+				<div>
+					<Test name="Vo" /> --> KQ = Hello Vo // cneeus function Test có nhiều thuộc tính khác trùng với dữ liệu truyền vào ở Test thì có thể sử dụng nó giống thằng name trong vd.
+					<Test name="Minh" /> --> KQ = Hello Vo
+					<Test name="Tri" />	--> KQ = Hello Vo
+				</div>
+			);
+		}
+		
+		ReactDom.render
+		(
+			<App />,document.getelementbyId('idtronghtml');
+		)
+		
+		NOTE: --> PROPS là pure : Tức la không thay đổi giá trị đầu vào sau khi kết thúc tiến trình. Props không thay đổi dữ liệu.
+		
+	-state -> truyền dữ liệu dạng động (dynamic data).
+	
+	************************************************************************NOTE Căn Bản - Folder 2-3-4***********************************************************
+	
+	-default export --> name import do mình tự đặt.
+	
+	-named export --> name import phải được define trong file export.
+	
+	-nếu muốn extend từ một class khác (dạng như inherit = kế thừa) thì phải có chữ super() để nó đọc được các đọc được các props cũng như method của class kia. => super(props) ra đời. 
+	
+	-Viết hoa chữ cái đầu các component or class để React không nhầm lẫn đó là thẻ HTML khi gọi.
+	
+	-props trong "class xyz extends component" thì phải là this.props mới sử dụng được nha!
+	-những cái gì viết ở giữa <Tag> </Tag> thay vì <Tag /> --> Goi là children
+	-->Muốn hiển thị cái này thì dùng props.children.
+	
+	-Muốn truyền biến vào function từ class cha -> con thì có 2 cách:
+		1.chuyển về express function: onclick = () => {this.namefunction}.
+		2.Sử dụng bind: onclick="this.namefunction.bind(this,"biến truyền vào").
+		
+	-Muốn thêm CSS vào có 2 cách:
+		1.Tạo 1 file Css rồi import vào file js nào muốn sử dụng.
+		2.Thêm hẳn trong phần render(), tạo object r thêm vào VD: var1 = {color:'red',fontSize:'25px'} , <h1 style={var1}> abc </h1> //Mấy cái kiểu gạch nối thì chuyển thành in hoa chữ nối lại hết như: font-size -> fontSize.
+	-Muốn sử dụng SASS(scss) thì import: npm install sass-loader node-sass --save-dev
+	
+	-Sử dụng condition(if else) thì nên tạo 1 biến r truyền vào ở ngoài phần return, k nên đưa thẳng vào return nó rối vs k sử dụng if trực tiếp được.!
+	-Vì React là viết = javascript nên k có sử dụng For, muốn lấy các phần tử trong 1 mảng ra từng phần tử thì dùng .map() .
+	-Nên xài speard(...)truyền dữ liệu để nó không bị ảnh hưởng nhau khi thay đổi nội dung từng cái.
+	-Nên coi lại một số hàm trong javascript như FindIndex,map,splice ...v...v
+	
+	************************************************************************Folder 5-Cách sử dụng style trong react***********************************************************
+	
+	--> nếu tạo 1 object chưa các thuộc tính style thì muốn thay đổi thì cần thay đổi dữ liệu object như javascript thông thường. // Video 61
+	--> Muốn add nhiều class vào một thẻ (class động VD: thêm màu vào khi còn 2 phần tử) thì khai báo biến là một mảng r dùng .john(' ') để kêt hợp bt // video 62.
+	--> Sử dụng thuộc tính hover được thì phải import radium (import trong npm trước = npm install --save radium) vào file muốn sử dụng.// Video 63
+		VD: 
+		let hellostyle =
+		  {
+			color: 'red',
+			fontSize: '55px',
+			':hover':{
+			  color:'yellow',
+			  border:'1px solid #fff',
+			}
+		  }
+	--> Sử dụng radium như trên để sử dụng css @media or key-frame ... giống kiểu hover, focus, active. Ngoài ra nếu sử dụng ở component con thì phải import Styleroot từ radium r chèn thẻ <Styleroot>{Đặt ở trong file main là đủ} </Styleroot> bao phần return lại để nó có thể hiểu được component con viết gì. Khi sử dụng radium nhớ export Radium(classname). // video 64 -> 65
+	
+	--> Để sử dụng Css như module (Video 66 -> 68) thì cần 'npm run eject'
+		-> nếu gặp lỗi thì nên thử code này: 	1. git add .
+												2. git commit -am "Save before ejecting"
+												3. npm run eject 
+												
+	************************************************************************Folder 6-Debug***********************************************************
+	Error Boundary : ?????
+	
+	************************************************************************Folder 7-Deep in to Component************************************************************
+	--> Chia nhỏ các component ra và sử dụng props một cách hợp lí.
+	- Có 2 loại component là Stateful và Stateless
+		+Statefull là extend , class đầy đủ. Muốn gọi props thì phải có this.props. Có quyền Access to State được cũng như LifeCircle Hook. --> Vì vậy chỉ sự dụng khi cần quản lí State or LifeCircle
+		
+		+Stateless là const x = (props) => {}. gọi props k cần this, Ko có quyền Access cũng như LifeCircle giống Statefull.
+		
+	- LifeCircle Creation của Component (Chỉ ứng dụng trong stateful component): (VIDEO 81 82 83)
+		+ constructor() 
+		+ componentWillReceiveProps()
+		+ componentWillUpdate()
+		+ componentDidCatch()
+		+ componentWillUnmount()
+		+ componentWillMount()
+		+ shouldComponentUpdate()
+		+ componentDidUpdate()
+		+ componentDidMount()
+		+ render()
+		
+	-->LIFECIRCLE MOUNTING(ACTION): contructor() -> componentWillMount() -> render() -> (render child component) -> componentDidMount().
+	
+	-Nên khởi tạo state trong constructor vì có thể set dữ liệu và hạn chế lỗi vs các dữ liệu từ component cha xuống.! -> khởi tạo trong constructor = this.state = {...}
+	
+	-Nếu tạo 1 class extend từ 1 component và tạo khởi tạo constructor thì cần có super(props). Vì mặc định khi tạo 1 class thì JS nó sẽ auto gọi super, việc mình gọi super này sẽ override lên super của js gọi trước đó để tránh trường hợp bị lỗi khi khởi tạo một số thứ ở các component cha.
+		
+	-->LIFECIRCLE UPDATING: componentWillReceiveProps(nextProps) -> shouldComponentUpdate(nextProps,nextState) -> componentWillUpdate(nextProps,nextState) -> render() -> (update children component props) -> componentDidUpdate()
+		+Hàm shouldComponentUpdate nếu return false thì nó sẽ k update trên DOM mặc dù thực tế behind the sence nó vẫn đã chạy rồi.! Phải chuyển trang quay lại hoặc tương tự vậy...
+		+Nếu truyền vào class props rồi thì có thể bỏ qua hàm componentWillReceiveProps();
+		
+	-> thay vì return về bình thường vẫn có thể chuyển thành 1 array rồi return.
+	
+	-Higher Order Component -> Tạo ra 1 cái component chung thay thế DIV để return ra lại các phần tử children.
+							-> Sử dụng {...props} nếu muốn truyền các props vào nó.
+	-Nếu Change state thì thay vì setState bình thường thì nên sử dụng prevState sẽ khoa học hơn. -> Video 96.
+	
+	-Ràng buộc dữ liệu props = cách: 
+		b1: npm install --save prop-types
+		b2: import PropTypes from prop-types
+		b3: ClassName.propTypes = { nameprop: PropTypes.validate, ... }
+		
+
+	-Một vài cách Destructuring(phá vỡ) việc sử dụng props and state:
+		+Cách 1: Tạo một object vs tên các property giống vs tên các props , sau đó cho object = props  --> xong!. Có thể sử dụng các tên of property chứ ko cần props.name nữa!
+		+Cách 2: Khi khởi tạo state less , không cần truyền props vào như bình thường: const x = (props) => {}. Thay vì truyền props đó sẽ truyền thẳng tên các props cần truyền vào luôn: const x = ({name,age}) => {} --> các props name,age đã đc truyền vào function.
+	
+	-Object.key -> Trả về 1 Array vs các phần tử là các key của Object;
+	-Object.value -> Trả về 1 Array vs các phần tử là các value của Object;
+	-->Dùng reduce kết hợp 2 cái trên để từ Object chuyển thành Array. (cách 1)
+	--> cách 2 coi tới Video 112.
+	
+	--> Vì setState là một method bất đồng bộ nên nó k chạy theo một thứ tự nào cả, khởi tạo trước nhưng nó vẫn chạy sau như thường, như setTimeOut là một ví dụ , dù set thời gian = 0 nhưng nó vẫn chạy sau các hàm gọi sau nó. Vì vậy lưu ý nếu sử dụng state sau khi setState thì chưa hẳn nó đa update kịp
+	Có 2 cách giải quyết vấn đề trên:
+		-> Sử dụng setState({abc:dsf},callback()) --> Sử dụng callback sẽ an toàn hơn nhiều là viết 1 hàm sau khi setState.
+		-> Function phải đồng bộ với State, khi state update cái là phải update ngay, dạng khai báo a = b -> b đổi là a đổi.
+	
+	-REF trong Input --> Nó được sử dụng để lấy dữ liệu trong DOM, gặp nhiều nhất trong lấy value của Input
+	
+	-Trick: để điều chỉnh một cái height của ảnh thì nên để nó vào một cái div cho dễ or truyền props.height xuống -> Video 130
+	--> Lưu ý. trong video nó xài className giống nhau giữa các component nhưng nếu làm v sẽ bị trùng class và ra kết quả k đúng giống như trên Video, nên đổi tên class đi!-> Video 131
+	**********************************************************************QUESTIONS*****************************************************
+		
+		
