@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import BuildControl from './BuildControl/BuildControl';
 import './BuildControls.css'
+import Button from '../../components/UI/Button/Button.js';
 
 class BuildControls extends Component {
     render() {
@@ -26,7 +27,7 @@ class BuildControls extends Component {
                     )
                 })}
                 <h3> Total Price {total} $ </h3>
-                <button onClick={this.props.Modal} disabled={!this.props.orderbtn} className="OrderButton"> Order Burger </button>
+                <Button btnclick={this.props.Modal} disabled={!this.props.orderbtn} type="OrderButton"> Order Burger </Button>
             </div>
         )
     }

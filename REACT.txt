@@ -1,8 +1,8 @@
 							
 		*********************************************************************************REACT*********************************************************************************
 	Tao 1 ung dung React:
-		-npm install -save create-react-app
-		-create-react-app name-app
+		b1: npm install -save create-react-app
+		b2: create-react-app name-app
 
 	
 	-PROPS = property -> Dùng để tái sử dụng khi viết một component or function class
@@ -80,7 +80,7 @@
 		-> nếu gặp lỗi thì nên thử code này: 	1. git add .
 												2. git commit -am "Save before ejecting"
 												3. npm run eject 
-												
+	---> react phien ban moi no update r, khong can eject
 	************************************************************************Folder 6-Debug***********************************************************
 	Error Boundary : ?????
 	
@@ -118,6 +118,8 @@
 	-Higher Order Component -> Tạo ra 1 cái component chung thay thế DIV để return ra lại các phần tử children.
 							-> Sử dụng {...props} nếu muốn truyền các props vào nó.
 	-Nếu Change state thì thay vì setState bình thường thì nên sử dụng prevState sẽ khoa học hơn. -> Video 96.
+	--> vi State thay doi khong dong bo, nen dung prevState de dam bao duoc tinh chinh xac , tranh tinh trang bat dong bo. 
+	VD: State value luc ta get = 8, nhung neu co ng khac update r ma ta k su dung prev thi no van lay gia tri 8, rat de gay loi~
 	
 	-Ràng buộc dữ liệu props = cách: 
 		b1: npm install --save prop-types
@@ -129,8 +131,8 @@
 		+Cách 1: Tạo một object vs tên các property giống vs tên các props , sau đó cho object = props  --> xong!. Có thể sử dụng các tên of property chứ ko cần props.name nữa!
 		+Cách 2: Khi khởi tạo state less , không cần truyền props vào như bình thường: const x = (props) => {}. Thay vì truyền props đó sẽ truyền thẳng tên các props cần truyền vào luôn: const x = ({name,age}) => {} --> các props name,age đã đc truyền vào function.
 	
-	-Object.key -> Trả về 1 Array vs các phần tử là các key của Object;
-	-Object.value -> Trả về 1 Array vs các phần tử là các value của Object;
+	-Object.keys -> Trả về 1 Array vs các phần tử là các key của Object;
+	-Object.values -> Trả về 1 Array vs các phần tử là các value của Object;
 	-->Dùng reduce kết hợp 2 cái trên để từ Object chuyển thành Array. (cách 1)
 	--> cách 2 coi tới Video 112.
 	
@@ -143,6 +145,35 @@
 	
 	-Trick: để điều chỉnh một cái height của ảnh thì nên để nó vào một cái div cho dễ or truyền props.height xuống -> Video 130
 	--> Lưu ý. trong video nó xài className giống nhau giữa các component nhưng nếu làm v sẽ bị trùng class và ra kết quả k đúng giống như trên Video, nên đổi tên class đi!-> Video 131
+	
+	----------> IMPROVE PERFORMANCE-------------------------
+	
+	VD: Total_Order_Modal(OrderSummary trong bai) khong can phai Update lien tuc, khi nao submit chon order thi moi can update so luong mon cung nhu chi phi.
+			--> Vay lam sao de giai quyet van de nay???????????????????? ---> su dung ShouldComponentUpdate de prevent cac render khong can thiet
+			
+		*ShouldComponentUpdate(nextProps,nextState)
+			--> shouldComponentUpdate(nextProps,nextState) --> kiem tra xem nextProps.data vs props.data neu giong nhau thi se khong render mot update, khi nao data khac nhau ms render.
+			--> ShouldComponentUpdate phai return kieu boolean: True -> render / False -> Khong render
+			--> nextProps : Props vua duoc chuyen vao nhung chua render // neu nhu component khong render thi Props se khong thay doi gia tri. => So sanh nextPropsData vs propsData neu khac nhau thi moi Update.
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 	**********************************************************************QUESTIONS*****************************************************
+	REST API???
+	JSONPLACEHOLDER??
+	Why is ComponentDidMount best place to send http request?????
+	Axios library ??
+	Create an Instance Axios
+	
 		
 		

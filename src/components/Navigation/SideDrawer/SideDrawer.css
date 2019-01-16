@@ -15,7 +15,12 @@
     .SideDrawer{
         display: none;
     }
+    .mobiOnly{
+        display: none;
+    }
 }
+
+
 .Open{
     transform: translateX(0);
 }

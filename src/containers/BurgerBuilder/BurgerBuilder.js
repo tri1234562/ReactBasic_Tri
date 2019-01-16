@@ -12,9 +12,10 @@ const ListPrice = {
 };
 
 class BurgerBuilder extends Component {
-    // constructor(props){
-    //     super(props);
-    // } 
+    constructor(props) {
+        super(props);
+
+    }
     state = {
         ingredients: {
             salad: 0,
@@ -50,9 +51,11 @@ class BurgerBuilder extends Component {
         }
     }
     OnHandleModal = () => {
+        console.log('hello 1');
         this.setState({ purcharing: true });
     }
     RemoveModal = () => {
+        console.log('abcd1234');
         this.setState({ purcharing: false });
     }
     OnHandleSubmit = () => {
@@ -85,6 +88,7 @@ class BurgerBuilder extends Component {
                         total={this.state.totalprice}
                     />
                 </Modal>
+
                 <Burger rootIngredients={this.state.ingredients} />
                 <BuildControls
                     orderbtn={this.state.orderbtn}

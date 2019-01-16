@@ -8,3 +8,8 @@
     background-color: rgba(0,0,0,0.5);
     position: fixed;
 }
+@media(min-width:500px){
+    .mobiOnly{
+        display: none;
+    }
+}

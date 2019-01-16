@@ -35,7 +35,7 @@
 }
 
 .OrderButton:not(:disabled) {
-    animation: enable 0.3s linear;
+    animation: enable 0.4s ease-in-out;
 }
 
 @keyframes enable {
@@ -43,7 +43,7 @@
         transform: scale(1);
     }
     60% {
-        transform: scale(1.1);
+        transform: scale(1.2);
     }
     100% {
         transform: scale(1);
