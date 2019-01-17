@@ -48,6 +48,7 @@
 	-Muốn truyền biến vào function từ class cha -> con thì có 2 cách:
 		1.chuyển về express function: onclick = () => {this.namefunction}.
 		2.Sử dụng bind: onclick="this.namefunction.bind(this,"biến truyền vào").
+		3.propertyname = {() => this.namefunction(bien)};
 		
 	-Muốn thêm CSS vào có 2 cách:
 		1.Tạo 1 file Css rồi import vào file js nào muốn sử dụng.
@@ -157,23 +158,53 @@
 			--> nextProps : Props vua duoc chuyen vao nhung chua render // neu nhu component khong render thi Props se khong thay doi gia tri. => So sanh nextPropsData vs propsData neu khac nhau thi moi Update.
 			
 			
+			************************************************************************KET NOI HTTP-WEB SERVER*****************************************************************************
+	-Axios: La mot thu vien de ket noi web json giong nhu http trong angular.
+		-->axios.get('url.json') --> tra ve mot cai promise --> .then(response => {response.data}) // lay duoc du lieu.
+		-->axios.post('url.json',data) -->tra ve mot promise bao viec da post thanh cong chua (status: 201) --> post complete.
+		-->axios.delete('url.json/'+id) -->tra ve mot promise bao viec da delete thanh cong chua (status: 201) --> delete complete. (data rtong promise gia tri rong).
+		
+		-->nen dat Axios ComponentDidMount vi tranh render() lap lai lien tuc cung nhu viec du lieu khong duoc dong bo.
+		--> Khi Update nen cai them dieu kien, tranh viec "infinite loop". (gui qua nhieu request len serve) // video 149.
+		
+	-()ASYNC/AWAIT) --> Mot cach khac de ket noi json http
 			
-			
-			
-			
-			
-			
-			
-			
-			
+	Co the su dung interceptor de danh' chan. tu` file index.js.
+		-> interceptor co 2 loai la request va response.
+			+response la cac response data phan hoi ve
+			+request(config)) Tuc la config(cau tao) cua request do.
+		-> Syntax: axios.interceptor.request/response.use((request/response) => {
+				return request/response //Lam gi do truoc gi request duoc sent/ lam gi do vs response data vua nhan duoc.
+			},(error) => {
+				return error //Do something with Request Error/ Do something with response error.
+			})
+	---> Phai duoc dat trong file index.js 
+	VD:
+		axios.interceptors.response.use(function (response) {
+			// Do something with response data
+			console.log('response: ');
+			console.log(response);
+			return response;
+		  }, function (error) {
+			// Do something with response error
+			console.log('response Error: ');
+			console.log(error);
+			return Promise.reject(error);
+		  });
+	
+
+	Su dung defaults.baseURL de mac dinh duong dan san cho gon gang code.
+		-> axios.defaults.baseURL = 'facebook.com' --> lan sau them get post gi thi chi can them phan duoi la duoc.
+	
+	Co the tu tao 1 instance voi cac config rieng cua minh bang cach // nen su dung phuong an nay trong viet code
+		-> const instance = axios.create({ baseURL: 'google.com' , headers: {'VietNam',Vo Dich'}}) --> roi su dung instance nay nhu mot axios binh thuong.
+	
 			
 			
 	**********************************************************************QUESTIONS*****************************************************
 	REST API???
 	JSONPLACEHOLDER??
-	Why is ComponentDidMount best place to send http request?????
-	Axios library ??
-	Create an Instance Axios
-	
-		
+	Why is ComponentDidMount best place to send http request(axios)?????
+	Axios library ??	
+	ComponentDidMount + componentWillMount && interceptor.response/request.use/eject ??
 		
