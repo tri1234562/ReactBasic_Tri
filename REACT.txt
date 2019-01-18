@@ -147,7 +147,7 @@
 	-Trick: để điều chỉnh một cái height của ảnh thì nên để nó vào một cái div cho dễ or truyền props.height xuống -> Video 130
 	--> Lưu ý. trong video nó xài className giống nhau giữa các component nhưng nếu làm v sẽ bị trùng class và ra kết quả k đúng giống như trên Video, nên đổi tên class đi!-> Video 131
 	
-	----------> IMPROVE PERFORMANCE-------------------------
+	---------------------------> IMPROVE PERFORMANCE <-------------------------
 	
 	VD: Total_Order_Modal(OrderSummary trong bai) khong can phai Update lien tuc, khi nao submit chon order thi moi can update so luong mon cung nhu chi phi.
 			--> Vay lam sao de giai quyet van de nay???????????????????? ---> su dung ShouldComponentUpdate de prevent cac render khong can thiet
@@ -199,12 +199,64 @@
 	Co the tu tao 1 instance voi cac config rieng cua minh bang cach // nen su dung phuong an nay trong viet code
 		-> const instance = axios.create({ baseURL: 'google.com' , headers: {'VietNam',Vo Dich'}}) --> roi su dung instance nay nhu mot axios binh thuong.
 	
+						
 			
+			-------------------------------------> ROUTER <------------------------------------
+	-->B1:npm install --save react-router react-router-dom.
+	-->B2:Muon su dung duoc Route thi phai vao trang App.js import BrowserRouter from 'react-router-dom' --> sau do dung the <BrowserRouter> </BrowserRouter> wrap up cai DIV cua return lai.
+	
+	--> Vao Component chua <Nav>. tao cac <Route> --> Moi Route se tuong ung 1 ket qua khac nhau.
+		-Cac property cua Route:
+			+path='{string}' --> duong dan 
+			+render={() => (...JSX)} --> Noi dung render
+			+component={NameComponent} --> Component hien thi neu dung duong dan
+			+exact (boolean) --> chinh xac den' tung chu nhu trong path ms hien thi, khong co kieu vao component con ma` noi dung component cha van con`.
+	
+	--> Thay <a> = <Link> de tranh reload component.
+		cac property cua Link: 
+			+pathname: A string representing the path to link to.
+			+search: A string representation of query parameters.
+			+hash: A hash to put in the URL, e.g. #a-hash.
+			+state: State to persist to the location
+	
+	VD: <Link
+		  to={{
+			pathname: "/courses",
+			search: "?sort=name",
+			hash: "#the-hash",
+			state: { fromDashboard: true }
+		  }}
+		/>
+	// neu chi co pathname thi ghi ntn cho gon: <Link to="/path">
+	
+	--> You can get access to the history object's properties and the closest <Route>'s match via the withRouter higher-order component(HOC). withRouter will pass updated match, location, and history props to the wrapped component whenever it renders. 
+		+HOC: la no wrap cai component can su dung lai. VD: export default withRouter(someComponent);
+	
+	-Su dung NavLink thay the the Link de no tu create class 'active' neu click vao --> set Style duoc.
+	-Mot vai property cua NavLink:
+		+to='path'
+		+exact
+		+activeClassName='Name123' --> thay vi ten active thi no se thanh Name123
+		+activeStyle={{color:#000,fontSize:100px}} --> set style cua active.
+		
+	-Relative Path & Absolute Path
+		+Relative se set pathname:this.props.match.url + '/string'; --> Lay den Url gan nhat xong ms truyen /string pathname. (Linh Hoat)
+		+Absolute se set pathname:'/string'; --> truyen thang pathname can den , xoa het cac path truoc do. (Co DInh)
+	
+	-Them parameters vao path giong angular: path='/:parameters' ---> dat duoi cung so vs cac Route kia (giong angular)
+	
+	-Switch va Route khac nhau o cho:
+		+Route thi no hien thi toan bo. cac component phu hop vs path cua no.
+		+Switch chi hien thi duy nhat 1 component gan` nhat vua dc chon.
+		
+		VD: <Route path="/about" component={About}/>
+			<Route path="/:user" component={User}/>
+			<Route component={NoMatch}/>
+			--> no se hien thi ca 3 thang nay mot lan`. (No coi about nhu la mot parameters :user).
+			--> dat toan bo may the Route tren vao trong <Switch> </Switch>
 			
+	*Co the su dung this.props.history.push(path,state) --> de chuyen component ma khong can Link.
 	**********************************************************************QUESTIONS*****************************************************
-	REST API???
-	JSONPLACEHOLDER??
 	Why is ComponentDidMount best place to send http request(axios)?????
-	Axios library ??	
 	ComponentDidMount + componentWillMount && interceptor.response/request.use/eject ??
 		
