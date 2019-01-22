@@ -256,7 +256,14 @@
 			--> dat toan bo may the Route tren vao trong <Switch> </Switch>
 			
 	*Co the su dung this.props.history.push(path,state) --> de chuyen component ma khong can Link.
+	--> ngoai push thi co .replace dung de redirect kha ok!
+	
+	--> trong BrowserRouter co mot property la basename='/abc' --> mac dinh toan bo moi duong dan se co chu /abc dau tien. (giong set default ben angular).
+	
+	<Redirect from = 'string' to ='string' /> --> tu dong chuyen huong (vidu page error -> home). Co the su dung to='string' k can from.
+	Co the su dung thang nay de lam Guard (chan nhung phan tu khong co quyen admin vao page)
 	**********************************************************************QUESTIONS*****************************************************
-	Why is ComponentDidMount best place to send http request(axios)?????
-	ComponentDidMount + componentWillMount && interceptor.response/request.use/eject ??
+	
+	????OPTIMIZE in network
+	
 		
