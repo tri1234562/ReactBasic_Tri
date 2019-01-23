@@ -4,6 +4,8 @@ import Burger from '../../Burger/Burger';
 import BuildControls from '../../Burger/BuildControls/BuildControls';
 import OrderSummary from '../../Burger/OrderSummary/OrderSummary';
 import Modal from '../../components/UI/Modal/Modal';
+// import axios from '../../axios-connect.js';
+import Spinner from '../../components/UI/Spinner/Spinner';
 const ListPrice = {
     meat: 1,
     bacon: 2,
@@ -12,10 +14,7 @@ const ListPrice = {
 };
 
 class BurgerBuilder extends Component {
-    constructor(props) {
-        super(props);
-
-    }
+    
     state = {
         ingredients: {
             salad: 0,
@@ -26,6 +25,7 @@ class BurgerBuilder extends Component {
         totalprice: 0,
         orderbtn: false,
         purcharing: false,
+        loading: false,
     }
     addIngredient = (type) => {
         console.log(type);
@@ -46,20 +46,58 @@ class BurgerBuilder extends Component {
             this.setState({ ingredients: updateingredient, totalprice: updateprice });
             this.updatePurchase(updateingredient);
         }
+
         else {
             window.alert('Sorry, This Ingredients Is Not Exist In Your Burger');
         }
     }
     OnHandleModal = () => {
-        console.log('hello 1');
         this.setState({ purcharing: true });
     }
     RemoveModal = () => {
         console.log('abcd1234');
         this.setState({ purcharing: false });
     }
+
     OnHandleSubmit = () => {
-        window.alert('You have been submit');
+        // this.setState({ loading: true });
+        // const dataCustom = {
+        //     name: 'Vo Minh Tri',
+        //     phoneNumber: '077411312',
+        //     address: {
+        //         street: 'Nguyen Oanh',
+        //         Province: 'Ho Chi Minh City',
+        //         Mode: 'normal',
+        //     },
+        //     ingredients: this.state.ingredients,
+        //     total: this.state.totalprice,
+        // };
+
+
+  
+        // axios.post("/orders.json", dataCustom).then((response) => {
+        //     console.log(response);
+          
+        //     this.setState({ loading: false,purcharing:false });
+            
+        // }).catch((error) => {
+        //     console.log(error);
+        //     this.setState({ loading: false });
+        // });
+        console.log(this.props);
+        
+        const queryparams = [];
+        for(let i in this.state.ingredients)
+        {
+            queryparams.push(encodeURIComponent(i) + '=' +encodeURIComponent(this.state.ingredients[i]));
+        } // su dung encodeURIComponent de ma~ hoa cac ki tu dac biet --> su dung duoc trong URL (?,/,:,...)
+
+        const queryString = queryparams.join('&');
+        this.props.history.push({
+            pathname:'/checkout',
+            search: '?'+queryString,
+        });
+        
     }
     OnHandleCancel = () => {
         window.alert('You Was Clicked Cancel');
@@ -78,15 +116,23 @@ class BurgerBuilder extends Component {
 
 
     render() {
+        let ordersummary = <OrderSummary
+            ingredients={this.state.ingredients}
+            btnCancel={this.OnHandleCancel}
+            btnSubmit={this.OnHandleSubmit}
+            total={this.state.totalprice}
+        />;
+        if (this.state.loading) {
+            console.log('loading');
+            ordersummary = <Spinner />;
+        }
+
+
+
         return (
             <Aux>
-                <Modal Show={this.state.purcharing} clickedBD2={this.RemoveModal}>
-                    <OrderSummary
-                        ingredients={this.state.ingredients}
-                        btnCancel={this.OnHandleCancel}
-                        btnSubmit={this.OnHandleSubmit}
-                        total={this.state.totalprice}
-                    />
+                <Modal Show={this.state.purcharing} clickedBD2={this.RemoveModal} loaded={this.state.loading}>
+                    {ordersummary}
                 </Modal>
 
                 <Burger rootIngredients={this.state.ingredients} />
@@ -96,7 +142,9 @@ class BurgerBuilder extends Component {
                     addbuilder={this.addIngredient}
                     delbuilder={this.delIngredients}
                     Modal={this.OnHandleModal}
+
                 />
+
             </Aux>
         );
     }

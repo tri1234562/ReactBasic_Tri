@@ -3,7 +3,7 @@ import './NavigationItem.scss';
 const NavigationItem = (props) => {
     return (
         <li className="NavigationItem">
-            <a link={props.link} className={props.active ? "active" : ""}> {props.children} </a>
+            <a href="#abc" link={props.link} className={props.active ? "active" : ""}> {props.children} </a>
         </li>
     )
 }

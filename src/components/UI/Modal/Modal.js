@@ -7,10 +7,11 @@ class modal extends Component {
     shouldComponentUpdate(nextProps,nextState) {
         // console.log(nextProps); // Mo 2 dong code nay de hieu gia tri cua nextProps
         // console.log(this.props.Show);
-        return (nextProps.Show !== this.props.Show);
+        return (nextProps.Show !== this.props.Show || nextProps.children !== this.props.children); // ve truoc la tranh viec update lien tuc khong can thiet trong modal -- ve sau la de submit cai Order no load cai spinner
+        // ve sau co the su dung  nextProps.loaded !== this.props.loaded
     }
     componentWillUpdate() {
-
+       
     }
 
     render() {

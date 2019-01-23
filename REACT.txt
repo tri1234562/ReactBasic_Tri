@@ -231,7 +231,9 @@
 	
 	--> You can get access to the history object's properties and the closest <Route>'s match via the withRouter higher-order component(HOC). withRouter will pass updated match, location, and history props to the wrapped component whenever it renders. 
 		+HOC: la no wrap cai component can su dung lai. VD: export default withRouter(someComponent);
-	
+		+withRouter duoc them tu react-router-dom
+		+Wrap thi no tu dong them 3 thang history,match,location vao props cua component do.
+		
 	-Su dung NavLink thay the the Link de no tu create class 'active' neu click vao --> set Style duoc.
 	-Mot vai property cua NavLink:
 		+to='path'
@@ -262,8 +264,33 @@
 	
 	<Redirect from = 'string' to ='string' /> --> tu dong chuyen huong (vidu page error -> home). Co the su dung to='string' k can from.
 	Co the su dung thang nay de lam Guard (chan nhung phan tu khong co quyen admin vao page)
+	
+	
+	
+	
+	-------******************-------> Muon Query Param tu component -> component khac lam nhu sau: <--------------**************--------
+		*B1: Dung` For...in Dua cac phan tu cua object can truyen vao 1 mang, Key va value lien ket vs nhau = ki tu '=' (neu chi la don phan tu thi dung For...of)
+				VD: queryparams.push(encodeURIComponent(i) + '=' +encodeURIComponent(this.state.ingredients[i]));
+		
+		*B2: Convert cai Array do thanh mot chuoi String, lien ket giua cac phan tu la ki tu '&'
+				VD: const queryString = queryparams.join('&');
+		
+		*B3: Dua no vao phan search cua props.
+				this.props.history.push({
+					search: '?'+queryString,
+				});
+		
+		*B4: Qua Component muon nhan Object nay (Component cua thang pathname trong cai push o tren) su dung URLSearchParam --> No se lay phan Search sau ki tu '?'
+			VD: const query = new URLSearchParams(this.props.location.search);
+			
+		*B5: Su dung method entries() cua URLSearchParams de lay cac phan tu
+			--> Do su dung ki tu '=' va '&' cac buoc o tren nen no tu dung chia ra san cac cap key vs value => 
+			VD: for(let item of query.entries())
+				{
+					item[0] = item[1]; // item[0] la key , 1 la value
+				}
 	**********************************************************************QUESTIONS*****************************************************
 	
 	????OPTIMIZE in network
-	
+	HOI LAI KHUC '=' VS '&' DONG` 287.
 		

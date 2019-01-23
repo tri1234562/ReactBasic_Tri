@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import BurgerIngredients from './BurgerIngredients/BurgerIngredients.js';
+import {withRouter} from 'react-router-dom';
 import './Burger.css';
 
 class Burger extends Component {
 
 
     render() {
+        console.log(this.props);
         let receiveIngredients = Object.keys(this.props.rootIngredients)
             .map((wtf) => {
                 // console.log(this.props.rootIngredients[wtf]);
@@ -32,4 +34,4 @@ class Burger extends Component {
         )
     }
 }
-export default Burger;
+export default withRouter(Burger);
