@@ -233,6 +233,7 @@
 		+HOC: la no wrap cai component can su dung lai. VD: export default withRouter(someComponent);
 		+withRouter duoc them tu react-router-dom
 		+Wrap thi no tu dong them 3 thang history,match,location vao props cua component do.
+		+No se su dung cac props cua component cha luon!!!!
 		
 	-Su dung NavLink thay the the Link de no tu create class 'active' neu click vao --> set Style duoc.
 	-Mot vai property cua NavLink:
@@ -268,15 +269,16 @@
 	
 	
 	
-	-------******************-------> Muon Query Param tu component -> component khac lam nhu sau: <--------------**************--------
+	-------******************-------> Muon Query Param tu component -> component khac lam nhu sau: <--------------**************-------- // 2 Component dong` cap nhau thi su dung cai nay moi hop li
 		*B1: Dung` For...in Dua cac phan tu cua object can truyen vao 1 mang, Key va value lien ket vs nhau = ki tu '=' (neu chi la don phan tu thi dung For...of)
-				VD: queryparams.push(encodeURIComponent(i) + '=' +encodeURIComponent(this.state.ingredients[i]));
+				VD: queryparams.push(encodeURIComponent(i) + '=' +encodeURIComponent(this.state.ingredients[i])); //queryparams = [] , i la trong let i of this.state.namestate
 		
 		*B2: Convert cai Array do thanh mot chuoi String, lien ket giua cac phan tu la ki tu '&'
 				VD: const queryString = queryparams.join('&');
 		
 		*B3: Dua no vao phan search cua props.
 				this.props.history.push({
+					pathname: 'noicanden'
 					search: '?'+queryString,
 				});
 		
@@ -289,8 +291,22 @@
 				{
 					item[0] = item[1]; // item[0] la key , 1 la value
 				}
+				
+	*******************************************FORM************************************************
+	
+	-Cach Truyen Value tu Event Onchange cua Input ve Component cha.
+		-> Su dung event.target.value //(function (event) {...code...})
+		
+	-Cach truyen tham so vao mot function trong form co event:
+		VD:
+			abc = (event,x) => {...code}
+			
+			return (<input nameprops ={(event) => this.abc(event,x)}  />) --> xong truyen cho props
+			
+	-Trong <Form> </Form> co mot thuoc tinh laf onSubmit={this.functionsubmit}
+			VD: <Form onSubmit={this.functionsubmit}> </Form> // --> khi click no se tu dong submit ham kia luon, khong can them function vao` button
+		
 	**********************************************************************QUESTIONS*****************************************************
 	
 	????OPTIMIZE in network
-	HOI LAI KHUC '=' VS '&' DONG` 287.
 		
