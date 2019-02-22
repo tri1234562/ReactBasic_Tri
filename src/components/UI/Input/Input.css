@@ -1,0 +1,23 @@
+.inputElement{
+    width: 100%;
+    margin: 10px auto;
+}
+.inputContent{
+    width: 80%;
+    box-sizing: border-box;
+}
+.inputContent:focus{
+    background: #ccc;
+}
+select{
+    min-width: 50px;
+    border-radius:5px;
+    padding: 4px;
+}
+label{
+    display: inline-block;
+    margin: 20px 10px;
+}
+.error{
+    border: 1px solid red;
+}

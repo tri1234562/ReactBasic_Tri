@@ -3,8 +3,8 @@ import NavigationItem from './NavigationItem/NavigationItem.js';
 import './NavigationItems.css'
 const NavigationItems = (props) => (
     <ul className="NavigationItems">
-        <NavigationItem link="/" active={true}> Button 1 </NavigationItem>
-        <NavigationItem link="/"> Button 2 </NavigationItem>
+        <NavigationItem link="/"> HOME </NavigationItem>
+        <NavigationItem link="/orders"> ORDERS </NavigationItem>
     </ul>
 )
 export default NavigationItems;

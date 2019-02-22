@@ -45,7 +45,7 @@
 	-những cái gì viết ở giữa <Tag> </Tag> thay vì <Tag /> --> Goi là children
 	-->Muốn hiển thị cái này thì dùng props.children.
 	
-	-Muốn truyền biến vào function từ class cha -> con thì có 2 cách:
+	-Muốn truyền biến vào function giữa 2 component cha <-> con thì có 2 cách:
 		1.chuyển về express function: onclick = () => {this.namefunction}.
 		2.Sử dụng bind: onclick="this.namefunction.bind(this,"biến truyền vào").
 		3.propertyname = {() => this.namefunction(bien)};
@@ -270,6 +270,7 @@
 	
 	
 	-------******************-------> Muon Query Param tu component -> component khac lam nhu sau: <--------------**************-------- // 2 Component dong` cap nhau thi su dung cai nay moi hop li
+	
 		*B1: Dung` For...in Dua cac phan tu cua object can truyen vao 1 mang, Key va value lien ket vs nhau = ki tu '=' (neu chi la don phan tu thi dung For...of)
 				VD: queryparams.push(encodeURIComponent(i) + '=' +encodeURIComponent(this.state.ingredients[i])); //queryparams = [] , i la trong let i of this.state.namestate
 		
@@ -306,7 +307,77 @@
 	-Trong <Form> </Form> co mot thuoc tinh laf onSubmit={this.functionsubmit}
 			VD: <Form onSubmit={this.functionsubmit}> </Form> // --> khi click no se tu dong submit ham kia luon, khong can them function vao` button
 		
+		
+		
+	*************************************************************************************REDUX**********************************************************************************************
+	Syntax: npm install --save redux
+	
+	+reducer ->  Nhan va xu li cac action -> Update cac State (co the gop nhieu reducer lai thanh mot reducer).
+	+Store  -> noi luu tru toan bo du lieu.
+	+dispatch -> Truyen cac loai action cho cac reducer biet
+	+Subscription -> dong bo du lieu tu state dc update den cac component.
+	
+	Mo hinh hoat dong Redux: 
+		Store(truyen data) -> Component (request) -> dispatch (select action) -> reducer (resolve action and update state) -> Store update va truyen cho subscription (auto update den cac du lieu component)
+		
+	-Một function Reducer thông thường có 2 argument là action và state ( vì nhiệm vụ của nó là nhận action và thay đổi state)
+	
+	-Mỗi lân dispatch được xử lí thì thằng store.subscribe sẽ lại run 1 lần để báo update các component khác.
+	
+	Link Gif Mô Hình Redux: http://slides.com/jenyaterpil/redux-from-twitter-hype-to-production#/9
+	
+	
+	*******************************************************************************************************IMPORT REACT AND REDUX*********************************************************************************************
+	Syntax: npm install --save react-redux
+	
+	-Sử dụng <Provider> </Provider> để wrap <App /> ở file index lại //import Provider from react-redux
+	
+	-Sử dụng connect() để kết nối react-redux với nhau. Cần có 2 function để làm việc này là mapStateToProps và mapDispatchToProps
+		-> các state của các hàm mapStateToProps và mapDispatchToProps đều là state nằm trong reducer, không phải state component
+	
+	VD:
+	const mapStateToProps = state => { // cái state này là state của thằng reducer
+		console.log(state);
+			return {
+				newscore: state.score, // giờ thì có this.props.newscore 
+			};
+		};
+
+	const mapDispatchToProps = dispatch => {
+		return {
+			Incre: () => dispatch({type:'Increment'}), // tương tự trên, this.props.Incre
+			Add5: () => dispatch({type:'add5',val:5}),
+			Decre: () => dispatch({type:'Decrement'}),
+			Subtr: () => dispatch({type:'Subtract',val:5}),
+		}
+	}
+	
+	-Object.assign() -> dùng để copy một object . (sau nay có spread ...)
+	
+	-Sử dụng ...state để không làm thay đổi toàn bộ state khiến nó bị lỗi. (Important!!!!)
+		-VD:
+			return {
+                ...state, // để nó không thay đổi state khi chỉ thay đổi 1 vài thuộc tính chứ k phải toàn bộ --> trong trường hợp này state.score sẽ bị null nếu k có dòng này. (trên state có property score nữa.)
+                resuilt:state.resuilt.concat(state.score),
+            }
+	
+	-sử dụng combineReducers để kết hợp nhiều reducers. import từ redux
+		VD:
+			const rootReducer = combineReducers({
+				rd1:reducer1,
+				rd2:reducer2, // may cai rd1,rd2 là để vào component gọi tên sử dụng state mỗi thằng cho đúng.
+			})
+			
+			store = createStore(rootReducer);
+			
+			
+	-nhiều reducer thì state thằng nào thì gọi tên thằng đó ms xài đc.
+	
+	-sử dụng state của các reducer thông qua cái component đang chứa tụi nó á.
+	
+	-Gif Mô Hình hoạt động của redux-thunk (middleware)
+		http://slides.com/jenyaterpil/redux-from-twitter-hype-to-production#/23
 	**********************************************************************QUESTIONS*****************************************************
 	
-	????OPTIMIZE in network
-		
+	-sử dung spread (... state) để update state, state never be changed. Immutably
+	-react-router-redux?
