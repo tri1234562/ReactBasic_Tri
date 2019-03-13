@@ -12,7 +12,7 @@ class BuildControls extends Component {
             { label: 'Cheese', type: "cheese" },
         ]
         let total = this.props.total.toFixed(2);
-        console.log(this.props.orderbtn);
+        // console.log(this.props.orderbtn);
         return (
             <div className="BuildControls">
                 {control.map(item => {

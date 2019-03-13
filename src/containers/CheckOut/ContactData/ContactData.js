@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import Button from '../../../components/UI/Button/Button';
 import './ContactData.scss';
-import axios from '../../../axios-connect.js';
+
 import { withRouter } from 'react-router-dom';
+import {connect} from 'react-redux';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
+import * as Actions from '../../../Store/actions/indexActions'
 class ContactData extends Component {
     state = {
         InforOrder: {
@@ -119,18 +121,22 @@ class ContactData extends Component {
             personInformation: infoCustommer,
         };// --> this data will post up to database
 
-        axios.post("/orders.json", dataCustom).then((response) => {
-            this.setState({ loading: false });
-            // console.log(response);
-            if (this.state.loading === false) {
-                setTimeout(() => {
-                    window.alert('Order Complete');
-                    this.props.history.push('/');
-                }, 300)
-            }
-        }).catch((error) => {
-            console.log(error);
-        })
+        this.props.onOrderSubmit(dataCustom);
+        this.props.onRefreshBurger();
+        window.alert('Order Complete!! Tks You For Your Support');
+        this.props.history.push('/');
+        // axios.post("/orders.json", dataCustom).then((response) => {
+        //     this.setState({ loading: false });
+        //     // console.log(response);
+        //     if (this.state.loading === false) {
+        //         setTimeout(() => {
+        //             window.alert('Order Complete');
+        //             this.props.history.push('/');
+        //         }, 300)
+        //     }
+        // }).catch((error) => {
+        //     console.log(error);
+        // }) // Nếu không sử dụng redux thì sẽ làm ntn!
     } 
     //End OnHandleSubmit
 
@@ -168,39 +174,47 @@ class ContactData extends Component {
 
 
     render() {
-        let ArrayInfo = [];
-        for (let key in this.state.InforOrder) {
-            let customer = {
-                id: key,
-                config: this.state.InforOrder[key]
-            }
-            ArrayInfo.push(customer);
-        }
-        // console.log(ArrayInfo);
-
         let post = ''
-        if (this.state.loading) {
-            post = <Spinner />;
+        if(!this.props.ingReducer)
+        {
+            this.props.history.push('/');
         }
-        else {
-            post = <form onSubmit={this.OnHandleSubmit}>
-                {ArrayInfo.map((InfoConfig) => {
-                    let error = (InfoConfig.config.Touched && !InfoConfig.config.valid)? true: false
-                    return (
-                        <Input                           
-                            key={InfoConfig.id}
-                            ElementType={InfoConfig.config.ElementType}
-                            ElementConfig={InfoConfig.config.ElementConfig}
-                            Error = {error}
-                            value={InfoConfig.config.value}
-                            Label={InfoConfig.config.Label}
-                            Changed={(event) => this.OnHandleInput(event, InfoConfig.id)}
-                        />
-                    )
-                })}
-                <Button type="Success btn-data"> Click ME  </Button>
-            </form>
+        else
+        {
+            let ArrayInfo = [];
+            for (let key in this.state.InforOrder) {
+                let customer = {
+                    id: key,
+                    config: this.state.InforOrder[key]
+                }
+                ArrayInfo.push(customer);
+            }
+            // console.log(ArrayInfo);      
+            if (this.state.loading) {
+                post = <Spinner />;
+            }
+            else {
+                post = <form onSubmit={this.OnHandleSubmit}>
+                    {ArrayInfo.map((InfoConfig) => {
+                        let error = (InfoConfig.config.Touched && !InfoConfig.config.valid)? true: false
+                        return (
+                            <Input                           
+                                key={InfoConfig.id}
+                                ElementType={InfoConfig.config.ElementType}
+                                ElementConfig={InfoConfig.config.ElementConfig}
+                                Error = {error}
+                                value={InfoConfig.config.value}
+                                Label={InfoConfig.config.Label}
+                                Changed={(event) => this.OnHandleInput(event, InfoConfig.id)}
+                            />
+                        )
+                    })}
+                    <Button type="Success btn-data"> Click ME  </Button>
+                </form>
+            }
         }
+
+        
 
 
         return (
@@ -212,5 +226,19 @@ class ContactData extends Component {
     } //End render
 }
 
-export default withRouter(ContactData)
+const mapStateToProps = state => {
+    return{
+        ingReducer:state.BBR.ingredients,
+        totalReducer:state.BBR.price,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onOrderSubmit:(orderData) => dispatch(Actions.PostOrder(orderData)),
+        onRefreshBurger: () => dispatch(Actions.refreshBurger()),
+    }
+}
+
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(ContactData))
 

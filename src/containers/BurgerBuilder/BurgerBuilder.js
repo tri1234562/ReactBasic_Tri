@@ -4,8 +4,9 @@ import Burger from '../../Burger/Burger';
 import BuildControls from '../../Burger/BuildControls/BuildControls';
 import OrderSummary from '../../Burger/OrderSummary/OrderSummary';
 import Modal from '../../components/UI/Modal/Modal';
-import {connect} from 'react-redux';
-import * as actionTypes from '../../Store/actions';
+import { connect } from 'react-redux';
+// import * as actionTypes from '../../Store/actions/actionTypes';
+import * as Actions from '../../Store/actions/indexActions'
 import Spinner from '../../components/UI/Spinner/Spinner';
 // const ListPrice = {
 //     meat: 1,
@@ -17,12 +18,12 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 class BurgerBuilder extends Component {
 
     state = {
-        ingredients: {
-            salad: 0,
-            meat: 0,
-            bacon: 0,
-            cheese: 0,
-        },
+        // ingredients: {
+        //     salad: 0,
+        //     meat: 0,
+        //     bacon: 0,
+        //     cheese: 0,
+        // },
         totalprice: 0,
         // orderbtn: false,
         purcharing: false,
@@ -59,27 +60,32 @@ class BurgerBuilder extends Component {
 
 
     RemoveModal = () => {
-       
+
         this.setState({ purcharing: false });
     }
 
+    componentDidMount() {
+        if(!this.props.ingReducer)
+        {
+            this.props.onInit();
+        }
+    }
 
 
     OnHandleSubmit = () => {
-         this.setState({ loading: false });
+        this.setState({ loading: false });
 
         console.log(this.props);
 
         const queryparams = [];
         for (let i in this.state.ingredients) {
             console.log(i);
-            if(this.state.ingredients[i] !== 0)
-            {
+            if (this.state.ingredients[i] !== 0) {
                 queryparams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
             }
         } // su dung encodeURIComponent de ma~ hoa cac ki tu dac biet --> su dung duoc trong URL (?,/,:,...)
-        
-        queryparams.push('price='+encodeURIComponent(this.state.totalprice)); // push price vao sau, do price k trong state.ingredients
+
+        queryparams.push('price=' + encodeURIComponent(this.state.totalprice)); // push price vao sau, do price k trong state.ingredients
 
         const queryString = queryparams.join('&');
         this.props.history.push({
@@ -94,7 +100,7 @@ class BurgerBuilder extends Component {
 
     OnHandleCancel = () => {
         window.alert('You Was Clicked Cancel');
-        this.setState({purcharing:false})
+        this.setState({ purcharing: false })
     }
 
     updatePurchase() {
@@ -121,15 +127,12 @@ class BurgerBuilder extends Component {
             console.log('loading');
             ordersummary = <Spinner />;
         }
-
-
-
-        return (
-            <Aux>
+        let burger = ''
+        if (this.props.ingReducer !== null)  {
+            burger = <Aux>
                 <Modal Show={this.state.purcharing} clickedBD2={this.RemoveModal} loaded={this.state.loading}>
                     {ordersummary}
                 </Modal>
-
                 <Burger rootIngredients={this.props.ingReducer} />
                 <BuildControls
                     orderbtn={this.updatePurchase()}
@@ -138,7 +141,13 @@ class BurgerBuilder extends Component {
                     delbuilder={this.props.onDelIngredient}
                     Modal={this.OnHandleModal}
                 />
+
             </Aux>
+        }
+
+
+        return (
+            burger 
         );
     }
 }
@@ -146,16 +155,17 @@ class BurgerBuilder extends Component {
 
 const mapStateToProps = state => {
     return {
-        ingReducer: state.ingredients,
-        totalReducer: state.price,
+        ingReducer: state.BBR.ingredients,
+        totalReducer: state.BBR.price,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddIngredient:(nameIng) => dispatch({type:actionTypes.ADD_INGREDIENT,nameIng:nameIng}),
-        onDelIngredient:(nameIng) => dispatch({type:actionTypes.DELETE_INGREDIENT,nameIng:nameIng}),
+        onAddIngredient: (nameIng) => dispatch(Actions.addIngrement(nameIng)),
+        onDelIngredient: (nameIng) => dispatch(Actions.removeIngrement(nameIng)),
+        onInit: () => dispatch(Actions.initIngredients()),
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(BurgerBuilder);
+export default connect(mapStateToProps, mapDispatchToProps)(BurgerBuilder);
