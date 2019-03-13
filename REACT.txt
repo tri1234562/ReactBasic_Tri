@@ -293,7 +293,7 @@
 					item[0] = item[1]; // item[0] la key , 1 la value
 				}
 				
-	*******************************************FORM************************************************
+	*******************************************FORM (FOLDER 13)************************************************
 	
 	-Cach Truyen Value tu Event Onchange cua Input ve Component cha.
 		-> Su dung event.target.value //(function (event) {...code...})
@@ -375,9 +375,63 @@
 	
 	-sử dụng state của các reducer thông qua cái component đang chứa tụi nó á.
 	
+
+		
+		
+		
+		**********************************************************************MIDDLEWARE*****************************************************
 	-Gif Mô Hình hoạt động của redux-thunk (middleware)
 		http://slides.com/jenyaterpil/redux-from-twitter-hype-to-production#/23
+	
+	-Phải import applyMiddleware từ redux, xong thêm ở trong cái createStore sau cái reducer chính. -->VD: const store1 = createStore(rootReducer,applyMiddleware(FuncMiddle));
+	
+	-function của middleware bắt buộc phải trả về một action. vì store.dispatch() default mặc định luôn trả về một action. Tìm hiểu thêm tại https://stackoverflow.com/questions/45964129/do-i-always-need-to-return-a-value-from-a-redux-middleware
+		VD căn bản của một function middleware:
+			const FuncMiddle = store => {	 //store có 2 method là dispatch va getState, mac dinh la dispatch luôn bắt return về một action, còn sử dụng getState nó sẽ lấy State của store về.
+			return next => {
+				return action => {
+					const x = next(action);  
+					return x;
+				}
+				// return next; // nếu k có cái action ở trên thì return như thế này vẫn được nha!! cái action nó chỉ run nếu có có event action nào đó xảy ra.
+			}
+		}
+	
+	-Action Creator là action thay vì trả về một chuỗi thông thường (VD: 'ADD') thì nó trả về một function.
+		
+	-redux-thunk dùng để run các hàm bất đồng bộ (như setTimeOut), vì trong redux không hỗ trợ run các hàm đó nên cần redux-thunk hỗ trợ. (thật ra là có nhưng chỉ vài trường hợp đơn giản thôi) 
+	 --> tìm hiểu thêm https://stackoverflow.com/questions/35411423/how-to-dispatch-a-redux-action-with-a-timeout/35415559#35415559
+		
+	
+	-middleware(redux-thunk) nhận vào một cái dispatch và trả về một cái dispatch cho reducer. Dùng để giữ action lại để chờ xử lí 1 việc khác( ví dụ như lấy data: được gọi là side effect // bất đồng bộ) -> xong ms tiếp tục dispatch cái action
+		 
+	***NOTICE: Actions must be plain objects. Use custom middleware for async actions. (action phai là một object đơn giản như return về type vs data thôi, với các action bất đồng bộ phải tùy chỉnh middleware)***
+		
+		
+		
+	*******************************************************************************************************LOGIN-LOGOUT-AUTHENTICATION*********************************************************************************************
+	
+	-Sử dụng thư viện axios để get or post các account.
+	-Vào Firebase Auth REST API để tìm các phương pháp authentication như signUp, signIn .. bla bla
+		+Mỗi method sẽ có một đường dẫn http (Endpoint) và kiểu (POST/GET ..) của method đó, sử dụng axios.get/post tương ứng vs kiểu đó kết hợp vs Endpoint. 
+		+Ở cuối mỗi Endpoint đều yêu cầu API_KEYS, vào firebase authentication của mình chọn WEB SETUP ở gần góc phải để lấy API_KEY.
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	**********************************************************************QUESTIONS*****************************************************
 	
 	-sử dung spread (... state) để update state, state never be changed. Immutably
-	-react-router-redux?
+	-Search Redux-Form???????
