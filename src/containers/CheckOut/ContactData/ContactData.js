@@ -120,10 +120,8 @@ class ContactData extends Component {
             total: this.props.totalprice,
             personInformation: infoCustommer,
         };// --> this data will post up to database
-
-        this.props.onOrderSubmit(dataCustom);
+        this.props.onOrderSubmit(this.props.Token,dataCustom);
         this.props.onRefreshBurger();
-        window.alert('Order Complete!! Tks You For Your Support');
         this.props.history.push('/');
         // axios.post("/orders.json", dataCustom).then((response) => {
         //     this.setState({ loading: false });
@@ -230,12 +228,13 @@ const mapStateToProps = state => {
     return{
         ingReducer:state.BBR.ingredients,
         totalReducer:state.BBR.price,
+        Token:state.AR.Token,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onOrderSubmit:(orderData) => dispatch(Actions.PostOrder(orderData)),
+        onOrderSubmit:(token,orderData) => dispatch(Actions.PostOrder(token,orderData)),
         onRefreshBurger: () => dispatch(Actions.refreshBurger()),
     }
 }

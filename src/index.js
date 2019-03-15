@@ -10,12 +10,13 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk'
 import burgerBuildReducers from './Store/reducer/burgerBuild';
 import orderReducers from './Store/reducer/order';
-
+import authReducers from './Store/reducer/auth';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 
 const rootReducers = combineReducers({
     BBR: burgerBuildReducers,
     OR: orderReducers,
+    AR: authReducers,
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // tool devtool cua redux

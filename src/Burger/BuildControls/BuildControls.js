@@ -27,7 +27,7 @@ class BuildControls extends Component {
                     )
                 })}
                 <h3> Total Price {total} $ </h3>
-                <Button btnclick={this.props.Modal} disabled={!this.props.orderbtn} type="OrderButton"> Order Burger </Button>
+                <Button btnclick={this.props.Modal} disabled={!this.props.orderbtn} type="OrderButton">{this.props.isAuthen? 'Order Burger': 'Đăng Nhập Đi Trời'}</Button>
             </div>
         )
     }

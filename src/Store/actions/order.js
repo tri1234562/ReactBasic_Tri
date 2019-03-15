@@ -23,9 +23,10 @@ const InitOrder = (data) => {
     }
 }
 
-export const PostOrder = (orderData) => {
+export const PostOrder = (token, orderData) => {
     return dispatch => {
-        axios.post('/orders.json',orderData).then((res) => {
+        axios.post('/orders.json?auth='+token,orderData).then((res) => {
+            window.alert('Order Complete!! Tks You For Your Support');
             dispatch(purchaseSuccess(orderData,res.data));
         }).catch((error) => {
             dispatch(purchaseFailed(error));
@@ -33,9 +34,9 @@ export const PostOrder = (orderData) => {
     }
 }
 
-export const GetOrders = () => {
+export const GetOrders = (token) => {
     return dispatch => {
-        axios.get('/orders.json').then((res) => {
+        axios.get('/orders.json?auth='+token).then((res) => {
             const DATA = [];
             for(let key in res.data){
                 DATA.push(res.data[key]);

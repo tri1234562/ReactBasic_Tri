@@ -55,7 +55,13 @@ class BurgerBuilder extends Component {
     //     }
     // }
     OnHandleModal = () => {
-        this.setState({ purcharing: true });
+        if(this.props.isAuthen)
+        {
+            this.setState({ purcharing: true });
+        }
+        else{
+            this.props.history.push('./auth');
+        }
     }
 
 
@@ -140,6 +146,7 @@ class BurgerBuilder extends Component {
                     addbuilder={this.props.onAddIngredient}
                     delbuilder={this.props.onDelIngredient}
                     Modal={this.OnHandleModal}
+                    isAuthen = {this.props.isAuthen}
                 />
 
             </Aux>
@@ -157,6 +164,7 @@ const mapStateToProps = state => {
     return {
         ingReducer: state.BBR.ingredients,
         totalReducer: state.BBR.price,
+        isAuthen: state.AR.Token !== null,
     }
 }
 

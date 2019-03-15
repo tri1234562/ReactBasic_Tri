@@ -13,11 +13,11 @@ const Pur_success = (state, action) => {
 
 
 
+
 const orderReducer = (state = StateInitial, action) => {
     switch (action.type) {
-
         case actionType.PURCHASE_SUCCESS: return Pur_success(state, action);
-        case actionType.PURCHASE_FAILED: window.alert(action.error); break;
+        case actionType.PURCHASE_FAILED: window.alert(action.error); return {...state};
         case actionType.INIT_ORDERS: return UpdateObject(state, { order: action.data })
         default: return state;
             

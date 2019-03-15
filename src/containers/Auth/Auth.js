@@ -3,6 +3,7 @@ import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
 import './Auth.css';
 import {connect} from 'react-redux';
+import {Redirect} from 'react-router-dom';
 // import * as ActionTypes from '../../Store/actions/actionTypes';
 import * as Actions from '../../Store/actions/indexActions';
 class Auth extends Component {
@@ -37,7 +38,8 @@ class Auth extends Component {
                 valid:false,
                 Touched:false,
             },
-        }
+        },
+        SignIn:false,
     }
 
 
@@ -65,12 +67,17 @@ class Auth extends Component {
         changeElement.valid = this.checkValidation(event.target.value,changeElement.validation);
         changeForm[name] = changeElement;
         this.setState({ Authen: changeForm });
-        console.log(changeElement);
+        // console.log(changeElement);
     } 
 
     submitHander = (e) => {
         e.preventDefault();
-        this.props.onAuth(this.state.Authen.email.value,this.state.Authen.password.value);
+        this.props.onAuth(this.state.Authen.email.value,this.state.Authen.password.value,this.state.SignIn);
+        
+    }
+
+    changeMode = () => {
+        this.setState((prevstate) => {return {SignIn: !prevstate.SignIn}});
     }
 
     
@@ -99,21 +106,36 @@ class Auth extends Component {
                         )
         })
 
+        let messageError = '';
+        if(this.props.messageError)
+        {
+            messageError = <p> {this.props.messageError} </p>
+        }
         return(
             <div className="form-auth">
                 <form onSubmit={this.submitHander}> 
+                    {messageError}
                     {formInput}
-                    <Button type="Success btn-data middle"> hello </Button>
+                    <Button type="Success btn-data middle"> Click Me </Button>
                 </form>
+                <Button btnclick={this.changeMode} type="Success btn-data middle"> Change To {this.state.SignIn? 'Sign Up': 'Sign In'} </Button>
+                {this.props.isAuthen? <Redirect to='/' /> :''}
             </div>
         )
     }
 }
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
     return {
-        onAuth: (email,pass) => dispatch(Actions.Auth(email,pass)),
+        messageError:state.AR.error,
+        isAuthen: state.AR.Token !== null,
     }
 }
 
-export default connect(null,mapDispatchToProps)(Auth)
+const mapDispatchToProps = dispatch => {
+    return {
+        onAuth: (email,pass,signin) => dispatch(Actions.Auth(email,pass,signin)),
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Auth)

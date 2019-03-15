@@ -11,7 +11,7 @@ class Orders extends Component {
     // }
     
     componentDidMount() {
-        this.props.InitOrders();
+        this.props.InitOrders(this.props.Token);
         // axios.get('/orders.json').then(res => {
         //     Object.keys(res.data).map((item) => { // trả về 1 array các key random trên firebase -> dùng map để get value từng item.
         //         motcaiarray.push(res.data[item]);
@@ -41,13 +41,14 @@ class Orders extends Component {
 
 const mapStateToProps = state => {
     return {
-        Orders: state.OR.order
+        Orders: state.OR.order,
+        Token:state.AR.Token
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        InitOrders:() => dispatch(ActionsType.GetOrders())
+        InitOrders:(Token) => dispatch(ActionsType.GetOrders(Token))
     }
      
 }
