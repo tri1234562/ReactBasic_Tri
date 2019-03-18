@@ -99,10 +99,9 @@ export const checkAuthAuto = () => {
             
             if(new Date(expiration) > new Date())
             {
-                console.log(new Date(expiration) - new Date());
                 let data = {
-                    Token:token,
-                    userId:localId,
+                    idToken:token,
+                    localId:localId,
                     RefreshToken:refreshToken,
                 }
                 dispatch(authsuccess(data));
